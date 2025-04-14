@@ -5,8 +5,12 @@ metadata:
   labels:
 {{ include "helloapp.labels" . | indent 4 }}
 spec:
+  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.port }}
-      targetPort: {{ .Values.service.port }}
+    {{- range .Values.service.ports }}
+    - port: {{ .port }}
+      targetPort: {{ .targetPort }}
+      protocol: {{ .protocol | default "TCP" }}
+    {{- end }}
   selector:
 {{ include "helloapp.matchLabels" . | indent 4 }}

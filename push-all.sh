@@ -32,5 +32,11 @@ gcloud auth print-access-token | helm registry login -u oauth2accesstoken --pass
 echo "Build and push helm chart of hello-app with version ${version}"
 sed -i "s/HELLO_TAG/${version}/g" helm/hello-app/Chart.yaml
 sed -i "s/HELLO_TAG/${version}/g" helm/hello-app/values.yaml
+
 helm package helm/hello-app
 helm push hello-app-helm-${version}.tgz oci://europe-west4-docker.pkg.dev/kitae-seo-wiremind-test/hello-repo
+
+sed -i 's/'"${version}"'/HELLO_TAG/g' helm/hello-app/Chart.yaml
+sed -i 's/'"${version}"'/HELLO_TAG/g' helm/hello-app/values.yaml
+
+rm hello-app-helm-${version}.tgz

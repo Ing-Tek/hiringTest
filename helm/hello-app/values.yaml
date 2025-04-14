@@ -1,22 +1,29 @@
 nameOverride: ""
 fullnameOverride: ""
 
-replicas: 1
+replicas: 3
 
 strategy:
   type: RollingUpdate
   rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 1
+    maxUnavailable: 25%
+    maxSurge: 25%
 
 minReadySeconds: 10
 
 image:
   repository: europe-west4-docker.pkg.dev
-  name: kitae-seo-wiremind-test/hello-repo
-  tag: v0-HELLO_TAG
+  name: kitae-seo-wiremind-test/hello-repo/hello-app
+  tag: HELLO_TAG
   pullPolicy: IfNotPresent
   extraAnnotations: {}
+
+service:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
 
 lifecycle:
   preStop:
@@ -32,10 +39,6 @@ readinessProbe:
 podSecurityContext: {}
 
 securityContext: {}
-
-service:
-  type: ClusterIP
-  port: 8080
 
 ingress: {}
 
