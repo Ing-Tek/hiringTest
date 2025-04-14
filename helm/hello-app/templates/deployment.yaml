@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ include "helloapp.name" . }}-dpl"
+  labels:
+{{ include "helloapp.labels" . | indent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector: 
+    matchLabels:
+{{ include "helloapp.matchLabels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+{{ include "helloapp.labels" . | indent 8 }}
+      annotations:
+        kubectl.kubernetes.io/default-logs-container: {{ include "helloapp.name" . }}
+    spec:
+      containers:
+      - name: {{ include "helloapp.name" . }}
+        image: {{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.port }}
+        lifecycle:
+          {{ toYaml .Values.lifecycle | nindent 10 }}

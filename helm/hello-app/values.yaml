@@ -1,0 +1,40 @@
+nameOverride: ""
+fullnameOverride: ""
+
+replicas: 1
+
+image:
+  repository: europe-west4-docker.pkg.dev
+  name: kitae-seo-wiremind-test/hello-repo
+  tag: v0-HELLO_TAG
+  pullPolicy: IfNotPresent
+  extraAnnotations: {}
+
+lifecycle:
+  preStop:
+    exec:
+      command: ["sleep", "15"]
+
+port: 8080
+
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress: {}
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
