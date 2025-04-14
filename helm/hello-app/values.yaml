@@ -3,6 +3,14 @@ fullnameOverride: ""
 
 replicas: 1
 
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+minReadySeconds: 10
+
 image:
   repository: europe-west4-docker.pkg.dev
   name: kitae-seo-wiremind-test/hello-repo

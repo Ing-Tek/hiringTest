@@ -6,6 +6,12 @@ metadata:
 {{ include "helloapp.labels" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
+  minReadySeconds: {{ .Values.minReadySeconds }}
+  strategy:
+    type: {{ .Values.strategy.type }}
+    rollingUpdate:
+      maxUnavailable: {{ .Values.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.strategy.rollingUpdate.maxSurge }}
   selector: 
     matchLabels:
 {{ include "helloapp.matchLabels" . | indent 6 }}
